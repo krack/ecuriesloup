@@ -25,8 +25,8 @@ before_deploy:
 
 deploy:
     provider: releases  
-    user: "GITHUB_USERNAME"
-    password: "GITHUB_PASSWORD"
+    user: "$GITHUB_USERNAME"
+    password: "$GITHUB_PASSWORD"
     skip_cleanup: true
     file: ecuriesloup.zip
     on:
