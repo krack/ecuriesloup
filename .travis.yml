@@ -18,7 +18,7 @@ after_success:
 before_deploy:
     - docker tag krack/ecuriesloup:test krack/ecuriesloup:${TRAVIS_TAG}
     - docker tag krack/ecuriesloup:${TRAVIS_TAG} krack/ecuriesloup:latest 
-    - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - docker push krack/ecuriesloup:${TRAVIS_TAG}
     - docker push krack/ecuriesloup:latest
 
