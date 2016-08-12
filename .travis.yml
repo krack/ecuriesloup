@@ -1,4 +1,7 @@
+sudo: required
 language: node_js
+services:
+  - docker
 node_js:
   - "node"
 before_install:
@@ -9,3 +12,18 @@ install:
     - bower install
 script:
     - gulp
+after_success:
+    - docker build -t krack/ecuriesloup:test .
+
+before_deploy:
+    - docker tag krack/ecuriesloup:test krack/ecuriesloup:${TRAVIS_TAG}
+    - docker tag krack/ecuriesloup:${TRAVIS_TAG} krack/ecuriesloup:latest 
+    - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    - docker push krack/ecuriesloup:${TRAVIS_TAG}
+    - docker push krack/ecuriesloup:latest
+
+deploy:
+    provider: releases
+    skip_cleanup: true
+  on:
+    tags: true
