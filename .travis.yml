@@ -25,8 +25,5 @@ before_deploy:
 
 deploy:
     provider: releases
-    api_key: 93c053c0addffe0debba7709d11c68076fb5f439    
-    skip_cleanup: true
-    file: ecuriesloup.zip
     on:
         tags: true
