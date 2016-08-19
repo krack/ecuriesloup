@@ -1,29 +1,31 @@
 sudo: required
 language: node_js
 services:
-  - docker
+- docker
 node_js:
-  - "node"
+- node
 before_install:
-    - npm install -g gulp
-    - npm install -g bower
+- npm install -g gulp
+- npm install -g bower
 install:
-    - npm install
-    - bower install
+- npm install
+- bower install
 script:
-    - gulp
+- gulp
 after_success:
-    - docker build -t krack/ecuriesloup:test .
-
+- docker build -t krack/ecuriesloup:test .
 before_deploy:
-    - cd dist && zip -ro ../ecuriesloup.zip * && cd ..
-    - docker tag krack/ecuriesloup:test krack/ecuriesloup:${TRAVIS_TAG}
-    - docker tag krack/ecuriesloup:${TRAVIS_TAG} krack/ecuriesloup:latest 
-    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - docker push krack/ecuriesloup:${TRAVIS_TAG}
-    - docker push krack/ecuriesloup:latest
-
+- cd dist && zip -ro ../ecuriesloup.zip * && cd ..
+- docker tag krack/ecuriesloup:test krack/ecuriesloup:${TRAVIS_TAG}
+- docker tag krack/ecuriesloup:${TRAVIS_TAG} krack/ecuriesloup:latest
+- docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+- docker push krack/ecuriesloup:${TRAVIS_TAG}
+- docker push krack/ecuriesloup:latest
 deploy:
-    provider: releases
-    on:
-        tags: true
+  provider: releases
+  api_key:
+    secure: yQO10yfx1a0c+lvgVDnynQk8UUTDugdUdPHxuFUqK0kZIeg+pUNNK22IPbbhv9Ua+G/b3uASv02cZJcKW/B51HbT6jvGDoAZ32Y10MnRIlqfMKQB5ZpIOqz57KaRLnBOl7Twenio27NMeCcPl7L/1wh7DxyJPMnMv8hbg4p4QOm0Twdgt1U6B2ctfD3/6A5rruUcOIoqzDJb61uXZU4WoXaeg9WksFRP8hv7y14gEgKXsA7B3zBYMPq6jDyMEnvQdWpkSGinP5xb1rNjACBAhvcrwXNZzYV8wz+rMcd07h3wfReaMmuJkRqoXV3hZrQkSkal6RmiRtjROYvfs1J5l1RBZVKdw038wbFB5dH/UbMlkn0rsXCYOgnvOC7h1D8micgkR4/V9BC/qiznpiA4CndqvjhYXIW4TjHGS30MxigTBNi9fs0OlHyZTJYzPzf930XY4IUXcBX5VnX9k23ZBfrU0kBasBSvQs+4mv9jwAK8NDGdm9I526TziKi4o9WnzACC2CFVNRe+GGTpVBcxvdHa11es6dUbesWWEU022D1cSg+8FI0bKZ62z8CJ/6iylayQbMCGStIUrQ0fY/IYa100ZUDIxjfJFRQUQx0dYCLEn4FGnEYBagIFLhUVB0qhX7j/p4XfcY+T2YtMzuz9574/mAkzY7fm+ovPXExqHCQ=
+  file: ecuriesloup.zip
+  skip_cleanup: true
+  on:
+    tags: true
