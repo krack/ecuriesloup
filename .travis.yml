@@ -5,6 +5,8 @@ services:
 node_js:
 - node
 before_install:
+- curl -L http://releases.rancher.com/compose/v0.8.6/rancher-compose-linux-amd64-v0.8.6.tar.gz -o rancher-compose.tar.gz
+- tar -zxvf rancher-compose.tar.gz && mv ./rancher-compose-v0.8.6/rancher-compose ./rancher-compose && rm -fr ./rancher-compose-v0.8.6 && rm ./rancher-compose.tar.gz
 - npm install -g gulp
 - npm install -g bower
 install:
@@ -21,6 +23,8 @@ before_deploy:
 - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 - docker push krack/ecuriesloup:${TRAVIS_TAG}
 - docker push krack/ecuriesloup:latest
+- rancher-compose -p ecuriesloup -f docker-compose.yml -r rancher-compose.yml rm -f
+- rancher-compose -p ecuriesloup -f docker-compose.yml -r rancher-compose.yml up -d
 deploy:
   provider: releases
   api_key:
