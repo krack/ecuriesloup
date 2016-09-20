@@ -23,8 +23,8 @@ before_deploy:
 - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 - docker push krack/ecuriesloup:${TRAVIS_TAG}
 - docker push krack/ecuriesloup:latest
-- rancher-compose -p ecuriesloup -f docker-compose.yml -r rancher-compose.yml rm -f
-- rancher-compose -p ecuriesloup -f docker-compose.yml -r rancher-compose.yml up -d
+- ./rancher-compose -p ecuriesloup -f docker-compose.yml -r rancher-compose.yml rm -f
+- ./rancher-compose -p ecuriesloup -f docker-compose.yml -r rancher-compose.yml up -d
 deploy:
   provider: releases
   api_key:
