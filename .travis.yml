@@ -16,6 +16,8 @@ script:
 - gulp
 after_success:
 - docker build -t krack/ecuriesloup:test .
+- ./rancher-compose -p ecuriesloup-dev -f docker-compose.yml -r rancher-compose.yml rm -f
+- ./rancher-compose -p ecuriesloup-dev -f docker-compose.yml -r rancher-compose.yml -e dev.env up -d
 before_deploy:
 - cd dist && zip -ro ../ecuriesloup.zip * && cd ..
 - docker tag krack/ecuriesloup:test krack/ecuriesloup:${TRAVIS_TAG}
@@ -23,8 +25,8 @@ before_deploy:
 - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 - docker push krack/ecuriesloup:${TRAVIS_TAG}
 - docker push krack/ecuriesloup:latest
-- ./rancher-compose -p ecuriesloup -f docker-compose.yml -r rancher-compose.yml rm -f
-- ./rancher-compose -p ecuriesloup -f docker-compose.yml -r rancher-compose.yml up -d
+- ./rancher-compose -p ecuriesloup-prod -f docker-compose.yml -r rancher-compose.yml rm -f
+- ./rancher-compose -p ecuriesloup-prod -f docker-compose.yml -r rancher-compose.yml -e prod.env up -d
 deploy:
   provider: releases
   api_key:
