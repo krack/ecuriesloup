@@ -16,6 +16,7 @@ script:
 - gulp
 after_success:
 - docker build -t krack/ecuriesloup:test .
+- docker push krack/ecuriesloup:test
 - ./rancher-compose -p ecuriesloup-dev -f docker-compose.yml -r rancher-compose.yml rm -f
 - ./rancher-compose -p ecuriesloup-dev -f docker-compose.yml -r rancher-compose.yml -e dev.env up -d
 before_deploy:
