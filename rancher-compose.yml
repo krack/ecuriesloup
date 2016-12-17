@@ -1,7 +1,7 @@
 version: '2'
-services:
-  scale: 1
+services:  
   load-balancer:
+    scale: 1
     lb_config:
       port_rules:
       - source_port: ${HOST_PORT}
