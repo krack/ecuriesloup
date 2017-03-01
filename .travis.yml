@@ -5,8 +5,8 @@ services:
 node_js:
 - node
 before_install:
-- curl -L https://releases.rancher.com/compose/v0.12.1/rancher-compose-linux-amd64-v0.12.1.tar.gz -o rancher-compose.tar.gz
-- tar -zxvf rancher-compose.tar.gz && mv ./rancher-compose-v0.12.1/rancher-compose ./rancher-compose && rm -fr ./rancher-compose-v0.12.1 && rm ./rancher-compose.tar.gz
+- curl -L https://releases.rancher.com/compose/v0.12.2/rancher-compose-linux-amd64-v0.12.2.tar.gz -o rancher-compose.tar.gz
+- tar -zxvf rancher-compose.tar.gz && mv ./rancher-compose-v0.12.2/rancher-compose ./rancher-compose && rm -fr ./rancher-compose-v0.12.2 && rm ./rancher-compose.tar.gz
 - npm install -g gulp
 - npm install -g bower
 install:
@@ -15,19 +15,19 @@ install:
 script:
 - gulp
 after_success:
+- ./rancher-compose -p ecuriesloup-dev -e dev.env rm -f
 - docker build -t krack/ecuriesloup:test .
 - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 - docker push krack/ecuriesloup:test
-- ./rancher-compose -p ecuriesloup-dev -f docker-compose.yml -r rancher-compose.yml -e dev.env rm -f
 - ./rancher-compose -p ecuriesloup-dev -f docker-compose.yml -r rancher-compose.yml -e dev.env up -d
 before_deploy:
+- ./rancher-compose -p ecuriesloup-prod -e prod.env rm -f
 - cd dist && zip -ro ../ecuriesloup.zip * && cd ..
 - docker tag krack/ecuriesloup:test krack/ecuriesloup:${TRAVIS_TAG}
 - docker tag krack/ecuriesloup:${TRAVIS_TAG} krack/ecuriesloup:latest
 - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
 - docker push krack/ecuriesloup:${TRAVIS_TAG}
 - docker push krack/ecuriesloup:latest
-- ./rancher-compose -p ecuriesloup-prod -f docker-compose.yml -r rancher-compose.yml -e prod.env rm -f
 - ./rancher-compose -p ecuriesloup-prod -f docker-compose.yml -r rancher-compose.yml -e prod.env up -d
 deploy:
   provider: releases
