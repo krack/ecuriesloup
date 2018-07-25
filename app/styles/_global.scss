@@ -116,8 +116,23 @@ ul > li{
   list-style: circle;
 }
 
+/* to tarrif */
+table{
+  td{
+    width: 33%;
+  }
+}
 
+h3{
+  color: rgb(119, 119, 119);
+  font-size: 14px;
+  line-height: 20px;
+}
 
+.price-note{
+  font-style: italic;
+  font-size: 0.8em;
+}
 
 
 
