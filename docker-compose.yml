@@ -3,9 +3,11 @@ services:
   load-balancer:
     ports:
     - ${HOST_PORT}
-    image: rancher/lb-service-haproxy:v0.5.9
+    image: rancher/lb-service-haproxy:v0.9.4
     labels:
-      proxy_url: ${EXPOSE_URL}
+      rap.host: ${EXPOSE_URL}
+      rap.le_host: ${EXPOSE_URL}
+      rap.port: ${HOST_PORT}
   web:
     labels:
       io.rancher.container.pull_image: always
